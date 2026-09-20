@@ -2,9 +2,12 @@ package th.ac.rmutt.greensync.organizations;
 
 import jakarta.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import th.ac.rmutt.greensync.users.User;
 
 @Entity
 @Table(name = "organizations")
@@ -63,9 +66,30 @@ public class Organization {
   @Column(name = "is_active", nullable = false)
   private boolean active = true;
 
+  @Column(name = "cached_executive_summary", columnDefinition = "text")
+  private String cachedExecutiveSummary;
+
+  @Column(name = "cached_recommendations", columnDefinition = "text")
+  private String cachedRecommendations;
+
+  @Column(name = "last_summary_hash")
+  private String lastSummaryHash;
+
+  @Column(name = "last_recommendations_hash")
+  private String lastRecommendationsHash;
+
+  @Column(name = "last_summary_analyzed_at")
+  private Instant lastSummaryAnalyzedAt;
+
+  @Column(name = "last_recommendations_analyzed_at")
+  private Instant lastRecommendationsAnalyzedAt;
+
   @Column(name = "created_at", insertable = false, updatable = false)
   private Instant createdAt;
 
   @Column(name = "updated_at", insertable = false, updatable = false)
   private Instant updatedAt;
+
+  @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
+  private List<User> users = new ArrayList<>();
 }

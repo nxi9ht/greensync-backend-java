@@ -2,4 +2,7 @@ package th.ac.rmutt.greensync.organizations;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrganizationRepository extends JpaRepository<Organization, Integer> {}
+public interface OrganizationRepository extends JpaRepository<Organization, Integer> {
+
+  java.util.List<Organization> findAllByOrderByNameAsc();
+}

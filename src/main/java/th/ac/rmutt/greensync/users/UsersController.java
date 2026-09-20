@@ -45,8 +45,12 @@ public class UsersController {
 
   @GetMapping("/roles")
   @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN')")
-  public List<Role> getAllRoles() {
-    return usersService.getAllRoles();
+  public List<Map<String, Object>> getAllRoles() {
+    // Role's DB column/TS property is role_name (snake_case); returning the entity directly
+    // would serialize as camelCase "roleName" and silently break the frontend's role dropdown.
+    return usersService.getAllRoles().stream()
+        .map(r -> Map.<String, Object>of("id", r.getId(), "role_name", r.getRoleName()))
+        .toList();
   }
 
   @GetMapping("/profile/me")
