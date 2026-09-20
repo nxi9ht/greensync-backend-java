@@ -301,4 +301,79 @@ public class UsersService {
     user.setLastLoginAt(Instant.now());
     userRepository.save(user);
   }
+
+  /** Fills in the profile, assessor profile, and bank account captured on self-registration. */
+  @Transactional
+  public void applyAssessorProfile(Integer userId, AssessorProfileData data) {
+    User user = userRepository.findById(userId).orElseThrow(() -> ApiException.notFound("ไม่พบผู้ใช้งานในระบบ"));
+
+    UserProfile profile = userProfileRepository.findByUserId(userId).orElseGet(() -> {
+      UserProfile p = new UserProfile();
+      p.setUser(user);
+      return p;
+    });
+    profile.setFirstName(data.firstName());
+    profile.setLastName(data.lastName());
+    profile.setPhone(data.phone());
+    userProfileRepository.save(profile);
+
+    AssessorProfile assessorProfile =
+        assessorProfileRepository.findByUserId(userId).orElseGet(() -> {
+          AssessorProfile ap = new AssessorProfile();
+          ap.setUser(user);
+          return ap;
+        });
+    assessorProfile.setLicenseNumber(data.licenseNumber());
+    assessorProfile.setYearsExperience(data.yearsExperience());
+    assessorProfile.setEducationBackground(data.educationBackground());
+    assessorProfile.setQualificationFileUrl(data.qualificationFileUrl());
+    assessorProfile.setVerificationStatus("Pending");
+    assessorProfileRepository.save(assessorProfile);
+
+    if (data.bankName() != null || data.bankAccountNo() != null || data.bankAccountName() != null) {
+      BankAccount account = bankAccountRepository.findFirstByUserId(userId).orElseGet(() -> {
+        BankAccount a = new BankAccount();
+        a.setUser(user);
+        a.setPrimary(true);
+        return a;
+      });
+      account.setBankName(data.bankName());
+      account.setAccountNo(data.bankAccountNo());
+      account.setAccountName(data.bankAccountName());
+      bankAccountRepository.save(account);
+    }
+  }
+
+  /**
+   * Imports employees from a two-or-more-column CSV (email,firstName,lastName,phone). Each
+   * account gets a random bootstrap password that is never returned or logged — the owner sets
+   * their real password through the existing forgot-password flow. Rows with an email that
+   * already exists are skipped.
+   */
+  @Transactional
+  public int bulkImportUsers(th.ac.rmutt.greensync.organizations.Organization org, String csvContent) {
+    String[] lines = csvContent.split("\\R");
+    int imported = 0;
+    for (int i = 1; i < lines.length; i++) { // skip header row
+      String line = lines[i].trim();
+      if (line.isEmpty()) continue;
+      String[] cols = line.split(",", -1);
+      String email = cols[0].trim();
+      if (email.isEmpty() || userRepository.findByEmailIgnoreCase(email).isPresent()) continue;
+
+      String firstName = cols.length > 1 && !cols[1].isBlank() ? cols[1].trim() : email.split("@")[0];
+      String lastName = cols.length > 2 && !cols[2].isBlank() ? cols[2].trim() : "Employee";
+      String phone = cols.length > 3 && !cols[3].isBlank() ? cols[3].trim() : "-";
+
+      byte[] secretBytes = new byte[32];
+      new java.security.SecureRandom().nextBytes(secretBytes);
+      String bootstrapSecret = java.util.HexFormat.of().formatHex(secretBytes);
+
+      NewUserData data =
+          new NewUserData(email, bootstrapSecret, org, firstName, lastName, phone, UserRole.EMPLOYEE.roleName(), true);
+      create(data);
+      imported++;
+    }
+    return imported;
+  }
 }

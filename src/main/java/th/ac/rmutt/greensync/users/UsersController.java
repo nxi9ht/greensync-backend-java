@@ -1,12 +1,15 @@
 package th.ac.rmutt.greensync.users;
 
 import jakarta.validation.Valid;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import th.ac.rmutt.greensync.common.ApiException;
 import th.ac.rmutt.greensync.organizations.OrganizationRepository;
 import th.ac.rmutt.greensync.security.AuthenticatedUser;
@@ -76,6 +79,27 @@ public class UsersController {
     }
     User created = usersService.createFromRequest(request, org);
     return usersService.getDetail(created.getId());
+  }
+
+  @PostMapping("/bulk-import")
+  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN')")
+  public Map<String, Object> bulkImport(
+      @RequestParam("file") MultipartFile file, @AuthenticationPrincipal AuthenticatedUser me) {
+    if (file == null || file.isEmpty()) {
+      throw ApiException.forbidden("No file uploaded");
+    }
+    if (me.orgId() == null) {
+      throw ApiException.forbidden("Organization not found for current user");
+    }
+    var org = organizationRepository.findById(me.orgId()).orElseThrow();
+    String csvContent;
+    try {
+      csvContent = new String(file.getBytes(), StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      throw ApiException.badRequest("ไม่สามารถอ่านไฟล์ได้");
+    }
+    int count = usersService.bulkImportUsers(org, csvContent);
+    return Map.of("success", true, "count", count);
   }
 
   @GetMapping("/{id}")

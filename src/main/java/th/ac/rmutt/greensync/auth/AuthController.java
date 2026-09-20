@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import th.ac.rmutt.greensync.auth.dto.ForgotPasswordRequest;
 import th.ac.rmutt.greensync.auth.dto.LoginRequest;
+import th.ac.rmutt.greensync.auth.dto.RegisterAssessorRequest;
 import th.ac.rmutt.greensync.auth.dto.RegisterRequest;
 import th.ac.rmutt.greensync.auth.dto.ResetPasswordRequest;
 
@@ -26,6 +27,12 @@ public class AuthController {
   public Map<String, Object> register(@Valid @RequestBody RegisterRequest request) {
     log.info("Register request for: {}", request.userData.email);
     return authService.register(request);
+  }
+
+  @PostMapping("/register/assessor")
+  public Map<String, Object> registerAssessor(@Valid @RequestBody RegisterAssessorRequest request) {
+    log.info("Register Assessor request for: {}", request.userData.email);
+    return authService.registerAssessor(request);
   }
 
   @PostMapping("/login")

@@ -34,6 +34,7 @@ server:
   port: ${PORT:8080}
 
 app:
+  frontend-url: ${FRONTEND_URL:http://localhost:4200}
   jwt:
     secret: ${JWT_SECRET:your_super_secret_jwt_key_here}
     # Matches the NestJS backend's JwtModule signOptions (expiresIn: '1d').
