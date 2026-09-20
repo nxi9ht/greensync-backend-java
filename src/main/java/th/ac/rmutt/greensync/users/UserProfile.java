@@ -6,6 +6,8 @@ import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "user_profiles")
@@ -38,9 +40,11 @@ public class UserProfile {
   @Column(name = "personal_goal_percent", precision = 5, scale = 2)
   private BigDecimal personalGoalPercent;
 
-  @Column(name = "created_at", insertable = false, updatable = false)
+  @CreationTimestamp
+  @Column(name = "created_at")
   private Instant createdAt;
 
-  @Column(name = "updated_at", insertable = false, updatable = false)
+  @UpdateTimestamp
+  @Column(name = "updated_at")
   private Instant updatedAt;
 }

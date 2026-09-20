@@ -5,6 +5,7 @@ import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "organization_units")
@@ -41,6 +42,7 @@ public class OrganizationUnit {
   @Column
   private Double area;
 
-  @Column(name = "created_at", insertable = false, updatable = false)
+  @CreationTimestamp
+  @Column(name = "created_at")
   private Instant createdAt;
 }

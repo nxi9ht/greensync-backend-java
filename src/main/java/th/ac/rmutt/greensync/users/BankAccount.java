@@ -5,6 +5,7 @@ import java.time.Instant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "bank_accounts")
@@ -34,6 +35,7 @@ public class BankAccount {
   @Column(name = "is_primary", nullable = false)
   private boolean primary = false;
 
-  @Column(name = "created_at", insertable = false, updatable = false)
+  @CreationTimestamp
+  @Column(name = "created_at")
   private Instant createdAt;
 }

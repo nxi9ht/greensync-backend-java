@@ -7,6 +7,8 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import th.ac.rmutt.greensync.organizations.Organization;
 
 @Entity
@@ -39,10 +41,12 @@ public class User {
   @Column(name = "last_login_at")
   private Instant lastLoginAt;
 
-  @Column(name = "created_at", insertable = false, updatable = false)
+  @CreationTimestamp
+  @Column(name = "created_at")
   private Instant createdAt;
 
-  @Column(name = "updated_at", insertable = false, updatable = false)
+  @UpdateTimestamp
+  @Column(name = "updated_at")
   private Instant updatedAt;
 
   @Column(name = "reset_password_token")

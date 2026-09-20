@@ -54,6 +54,13 @@ public class UsersService {
   }
 
   @Transactional(readOnly = true)
+  public Optional<User> findOrgAdmin(Integer orgId) {
+    return userRepository.search(orgId, "ORG_ADMIN", org.springframework.data.domain.PageRequest.of(0, 1))
+        .stream()
+        .findFirst();
+  }
+
+  @Transactional(readOnly = true)
   public Map<String, Object> getDetail(Integer id) {
     User user = userRepository.findById(id).orElseThrow(() -> ApiException.notFound("ไม่พบผู้ใช้งานในระบบ"));
     Map<String, Object> detail = userMapper.toDetail(user);

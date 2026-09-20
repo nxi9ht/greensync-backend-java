@@ -7,6 +7,8 @@ import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import th.ac.rmutt.greensync.users.User;
 
 @Entity
@@ -84,10 +86,12 @@ public class Organization {
   @Column(name = "last_recommendations_analyzed_at")
   private Instant lastRecommendationsAnalyzedAt;
 
-  @Column(name = "created_at", insertable = false, updatable = false)
+  @CreationTimestamp
+  @Column(name = "created_at")
   private Instant createdAt;
 
-  @Column(name = "updated_at", insertable = false, updatable = false)
+  @UpdateTimestamp
+  @Column(name = "updated_at")
   private Instant updatedAt;
 
   @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)

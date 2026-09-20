@@ -87,4 +87,34 @@ public class MailService {
         """
         .formatted(userName, verifyLink);
   }
+
+  public String assessmentSubmittedTemplate(String orgName) {
+    return """
+        <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e2e8f0;">
+          <div style="background:linear-gradient(135deg,#059669,#0d9488);padding:32px;text-align:center;">
+            <h1 style="color:white;margin:0;font-size:22px;font-weight:800;">ได้รับข้อมูลการประเมินแล้ว</h1>
+          </div>
+          <div style="padding:32px;">
+            <p style="color:#334155;font-size:15px;">เรียน <strong>%s</strong>,</p>
+            <p style="color:#64748b;font-size:14px;">ทางเราได้รับข้อมูลแบบประเมินและหลักฐานของคุณเรียบร้อยแล้ว ผู้ประเมินจะดำเนินการตรวจสอบในลำดับถัดไป</p>
+          </div>
+        </div>
+        """
+        .formatted(orgName);
+  }
+
+  public String assessmentReviewedTemplate(String orgName, String status) {
+    return """
+        <div style="font-family:'Segoe UI',Arial,sans-serif;max-width:520px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e2e8f0;">
+          <div style="background:linear-gradient(135deg,#059669,#0d9488);padding:32px;text-align:center;">
+            <h1 style="color:white;margin:0;font-size:22px;font-weight:800;">ทราบผลการประเมินเบื้องต้น</h1>
+          </div>
+          <div style="padding:32px;">
+            <p style="color:#334155;font-size:15px;">เรียน <strong>%s</strong>,</p>
+            <p style="color:#64748b;font-size:14px;">ผลการประเมินล่าสุดของคุณได้รับการอัปเดตสถานะเป็น: <strong>%s</strong> คุณสามารถเข้าสู่ระบบเพื่อตรวจสอบคะแนนเพิ่มเติมได้</p>
+          </div>
+        </div>
+        """
+        .formatted(orgName, status);
+  }
 }
