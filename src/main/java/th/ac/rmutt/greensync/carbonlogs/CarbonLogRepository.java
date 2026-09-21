@@ -19,4 +19,7 @@ public interface CarbonLogRepository extends JpaRepository<CarbonLog, Integer> {
   List<CarbonLog> findByOrganizationIdOrderByYearDescMonthDescCreatedAtDesc(Integer orgId);
 
   List<CarbonLog> findByOrganizationIdIn(List<Integer> orgIds);
+
+  @org.springframework.data.jpa.repository.Query("select coalesce(sum(l.totalEmission), 0) from CarbonLog l")
+  double sumTotalEmission();
 }

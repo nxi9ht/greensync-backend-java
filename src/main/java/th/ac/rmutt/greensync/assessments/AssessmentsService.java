@@ -96,7 +96,7 @@ public class AssessmentsService {
     List<Assessment> assessments;
     if (normalizedRole.equals("ADMIN") || normalizedRole.equals("SYSTEM_ADMIN")) {
       assessments = assessmentRepository.findTop50ByOrderBySubmittedAtDesc();
-    } else if (normalizedRole.equals("ASSESSOR") || normalizedRole.equals("ASSESSOR_ADMIN")) {
+    } else if (normalizedRole.equals("ASSESSOR")) {
       assessments =
           normalizedRole.equals("ASSESSOR") && assessorId != null
               ? assessmentRepository.findTop50ByAssessorIdOrderBySubmittedAtDesc(assessorId)

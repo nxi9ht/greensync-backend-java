@@ -20,6 +20,10 @@ public interface AssessmentRepository extends JpaRepository<Assessment, Integer>
 
   long countByOrganizationIdAndStatus(Integer orgId, String status);
 
+  long countByStatus(String status);
+
+  long countByStatusIn(List<String> statuses);
+
   List<Assessment> findByOrganizationIdAndStatusOrderByUpdatedAtDesc(Integer orgId, String status);
 
   Optional<Assessment> findByIdAndOrganizationIdAndStatus(Integer id, Integer orgId, String status);

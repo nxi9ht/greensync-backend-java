@@ -9,7 +9,7 @@ import th.ac.rmutt.greensync.users.dto.UpdateUserRequest;
 
 @RestController
 @RequestMapping("/assessor-admin")
-@PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ASSESSOR_ADMIN')")
+@PreAuthorize("hasRole('SYSTEM_ADMIN')")
 public class AssessorAdminController {
 
   private final UsersService usersService;

@@ -18,7 +18,7 @@ import th.ac.rmutt.greensync.security.AuthenticatedUser;
 @RequestMapping("/assessor")
 public class AssessorController {
 
-  private static final Set<String> ADMIN_LIKE_ROLES = Set.of("SYSTEM_ADMIN", "ADMIN", "ASSESSOR_ADMIN");
+  private static final Set<String> ADMIN_LIKE_ROLES = Set.of("SYSTEM_ADMIN", "ADMIN");
 
   private final AssessorService assessorService;
 
@@ -67,7 +67,7 @@ public class AssessorController {
   @PreAuthorize("hasAnyRole('ASSESSOR','SYSTEM_ADMIN','ADMIN','ORG_ADMIN','EXECUTIVE','EMPLOYEE','USER')")
   public Map<String, Object> getCarbonSummary(@PathVariable Integer orgId, @AuthenticationPrincipal AuthenticatedUser me) {
     String role = normalizeRole(me.role());
-    if (!ADMIN_LIKE_ROLES.contains(role) && !"ASSESSORADMIN".equals(role) && !"ASSESSOR".equals(role)) {
+    if (!ADMIN_LIKE_ROLES.contains(role) && !"ASSESSOR".equals(role)) {
       if (!orgId.equals(me.orgId())) {
         throw ApiException.forbidden("ไม่มีสิทธิ์เข้าถึงข้อมูลคาร์บอนขององค์กรอื่น");
       }
@@ -116,7 +116,7 @@ public class AssessorController {
   private void assertAssessmentReadAccess(Integer assessmentId, AuthenticatedUser me) {
     Assessment assessment = assessorService.findEntity(assessmentId);
     String role = normalizeRole(me.role());
-    if (ADMIN_LIKE_ROLES.contains(role) || "ASSESSORADMIN".equals(role)) return;
+    if (ADMIN_LIKE_ROLES.contains(role)) return;
     if ("ASSESSOR".equals(role)) {
       if (assessment.getAssessor() != null && !assessment.getAssessor().getId().equals(me.userId())) {
         throw ApiException.forbidden("ไม่มีสิทธิ์เข้าถึงการประเมินที่มอบหมายให้ผู้ตรวจคนอื่น");

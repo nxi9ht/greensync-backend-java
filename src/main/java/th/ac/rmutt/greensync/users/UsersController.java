@@ -33,7 +33,7 @@ public class UsersController {
   }
 
   @GetMapping
-  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR_ADMIN')")
+  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN')")
   public List<Map<String, Object>> findAll(
       @RequestParam(required = false) String role,
       @RequestParam(required = false) Integer page,

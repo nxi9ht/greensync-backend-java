@@ -20,7 +20,7 @@ import th.ac.rmutt.greensync.users.User;
 public class UploadsService {
 
   private static final Set<String> ALLOWED_FOLDERS = Set.of("evidence", "certificates", "avatars", "reports", "general");
-  private static final Set<String> UPLOAD_ANY_ORG_ROLES = Set.of("SYSTEMADMIN", "ASSESSOR", "ASSESSORADMIN");
+  private static final Set<String> UPLOAD_ANY_ORG_ROLES = Set.of("SYSTEMADMIN", "ASSESSOR");
   private static final long MAX_FILE_SIZE = 5L * 1024 * 1024;
   private static final Set<String> ALLOWED_CONTENT_TYPES =
       Set.of("image/png", "image/jpeg", "image/jpg", "application/pdf");

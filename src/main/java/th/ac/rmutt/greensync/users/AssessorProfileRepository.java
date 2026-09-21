@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AssessorProfileRepository extends JpaRepository<AssessorProfile, Integer> {
 
   Optional<AssessorProfile> findByUserId(Integer userId);
+
+  long countByVerificationStatus(String verificationStatus);
 }

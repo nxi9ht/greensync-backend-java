@@ -13,7 +13,7 @@ import th.ac.rmutt.greensync.security.AuthenticatedUser;
 @RequestMapping("/green-office")
 public class GreenOfficeController {
 
-  private static final List<String> HEADER_ORG_ROLES = List.of("SYSTEM_ADMIN", "ASSESSOR", "ASSESSOR_ADMIN");
+  private static final List<String> HEADER_ORG_ROLES = List.of("SYSTEM_ADMIN", "ASSESSOR");
 
   private final GreenCriteriaService greenCriteriaService;
 
@@ -38,7 +38,7 @@ public class GreenOfficeController {
   }
 
   @GetMapping
-  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','USER','ASSESSOR','ASSESSOR_ADMIN')")
+  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','USER','ASSESSOR')")
   public List<Map<String, Object>> findAll(@AuthenticationPrincipal AuthenticatedUser me, HttpServletRequest request) {
     return greenCriteriaService.findAllForFrontend(getOrgId(me, request)).stream()
         .map(this::withSnakeCaseAliases)

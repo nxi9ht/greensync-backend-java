@@ -48,12 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String role = RoleNormalizer.normalize(claims.get("role", String.class));
 
         AuthenticatedUser principal = new AuthenticatedUser(userId, email, orgId, role);
-        List<SimpleGrantedAuthority> authorities =
-            "ASSESSOR_ADMIN".equals(role)
-                ? List.of(
-                    new SimpleGrantedAuthority("ROLE_ASSESSOR_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_ASSESSOR"))
-                : List.of(new SimpleGrantedAuthority("ROLE_" + role));
+        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
 
         var authentication =
             new UsernamePasswordAuthenticationToken(principal, null, authorities);

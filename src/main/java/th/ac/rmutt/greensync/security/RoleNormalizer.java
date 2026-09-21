@@ -17,8 +17,10 @@ public final class RoleNormalizer {
     String compact = role.trim().toUpperCase().replaceAll("[\\s_]", "");
     return switch (compact) {
       case "ORGADMIN", "ORGANIZATIONADMIN" -> "ORG_ADMIN";
-      case "SYSTEMADMIN", "ADMIN" -> "SYSTEM_ADMIN";
-      case "ASSESSORADMIN" -> "ASSESSOR_ADMIN";
+      // Assessor Admin was merged into System Admin (only 4 roles remain: System Admin,
+      // Organization Admin, Assessor, Executive) — any stale token or leftover DB row using
+      // this role name still resolves to full system-admin authority rather than breaking.
+      case "SYSTEMADMIN", "ADMIN", "ASSESSORADMIN" -> "SYSTEM_ADMIN";
       default -> role.trim().toUpperCase().replace(' ', '_');
     };
   }

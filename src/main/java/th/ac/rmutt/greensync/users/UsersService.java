@@ -84,7 +84,7 @@ public class UsersService {
 
     List<User> users;
     if ("ASSESSOR".equalsIgnoreCase(roleFilter)) {
-      users = userRepository.searchByAnyRole(orgId, List.of("ASSESSOR", "ASSESSOR ADMIN", "ASSESSOR_ADMIN"), pageable);
+      users = userRepository.searchByAnyRole(orgId, List.of("ASSESSOR"), pageable);
     } else {
       String normalizedRole = roleFilter != null ? roleFilter.toUpperCase() : null;
       users = userRepository.search(orgId, normalizedRole, pageable);
@@ -171,9 +171,6 @@ public class UsersService {
     if (roleNames.contains(UserRole.ORG_ADMIN.roleName().toUpperCase()) || roleNames.contains("ORG_ADMIN"))
       return UserRole.ORG_ADMIN.roleName();
     if (roleNames.contains(UserRole.ADMIN.roleName().toUpperCase())) return UserRole.SYSTEM_ADMIN.roleName();
-    if (roleNames.contains(UserRole.ASSESSOR_ADMIN.roleName().toUpperCase())
-        || roleNames.contains("ASSESSOR_ADMIN")
-        || roleNames.contains("ASSESSORADMIN")) return UserRole.ASSESSOR_ADMIN.roleName();
     if (roleNames.contains(UserRole.ASSESSOR.roleName().toUpperCase())) return UserRole.ASSESSOR.roleName();
     if (roleNames.contains(UserRole.EXECUTIVE.roleName().toUpperCase())) return UserRole.EXECUTIVE.roleName();
     if (roleNames.contains(UserRole.EMPLOYEE.roleName().toUpperCase())) return UserRole.EMPLOYEE.roleName();

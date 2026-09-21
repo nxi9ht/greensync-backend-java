@@ -47,21 +47,21 @@ public class AssessmentsController {
   }
 
   @GetMapping
-  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR','ASSESSOR_ADMIN')")
+  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR')")
   public List<Map<String, Object>> findAll(
       @AuthenticationPrincipal AuthenticatedUser me, HttpServletRequest httpRequest) {
     Integer orgId = me.orgId();
-    if ("SYSTEM_ADMIN".equals(me.role()) || "ASSESSOR".equals(me.role()) || "ASSESSOR_ADMIN".equals(me.role())) {
+    if ("SYSTEM_ADMIN".equals(me.role()) || "ASSESSOR".equals(me.role())) {
       orgId = headerOrgId(httpRequest);
     }
     Integer assessorId = "ASSESSOR".equals(me.role()) ? me.userId() : null;
     return assessmentsService.findAll(orgId, me.role(), assessorId);
   }
 
-  private static final List<String> PRIVILEGED_ROLES = List.of("ASSESSOR", "ASSESSOR_ADMIN", "ADMIN", "SYSTEM_ADMIN");
+  private static final List<String> PRIVILEGED_ROLES = List.of("ASSESSOR", "ADMIN", "SYSTEM_ADMIN");
 
   @GetMapping("/{id}")
-  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR','ASSESSOR_ADMIN')")
+  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR')")
   public Map<String, Object> findOne(@PathVariable Integer id, @AuthenticationPrincipal AuthenticatedUser me) {
     Integer orgId = PRIVILEGED_ROLES.contains(me.role()) ? 0 : me.orgId();
     Assessment assessment = assessmentsService.findEntity(id, orgId);
@@ -73,7 +73,7 @@ public class AssessmentsController {
   }
 
   @PatchMapping("/{id}")
-  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR','ASSESSOR_ADMIN')")
+  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR')")
   public Map<String, Object> update(
       @PathVariable Integer id,
       @RequestBody UpdateAssessmentRequest request,

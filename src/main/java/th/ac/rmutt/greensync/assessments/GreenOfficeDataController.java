@@ -15,7 +15,7 @@ import th.ac.rmutt.greensync.security.AuthenticatedUser;
 @RequestMapping("/green-office-data")
 public class GreenOfficeDataController {
 
-  private static final List<String> PRIVILEGED_ROLES = List.of("SYSTEM_ADMIN", "ASSESSOR", "ASSESSOR_ADMIN");
+  private static final List<String> PRIVILEGED_ROLES = List.of("SYSTEM_ADMIN", "ASSESSOR");
 
   private final GreenCriteriaService greenCriteriaService;
 

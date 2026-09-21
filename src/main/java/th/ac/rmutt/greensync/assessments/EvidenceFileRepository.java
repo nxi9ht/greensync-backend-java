@@ -12,4 +12,7 @@ public interface EvidenceFileRepository extends JpaRepository<EvidenceFile, Inte
           + "left join fetch f.assessmentDetail ad left join fetch ad.assessment "
           + "order by f.uploadedAt desc")
   List<EvidenceFile> findAllWithRelations();
+
+  @Query("select coalesce(sum(f.fileSize), 0) from EvidenceFile f")
+  long sumFileSize();
 }

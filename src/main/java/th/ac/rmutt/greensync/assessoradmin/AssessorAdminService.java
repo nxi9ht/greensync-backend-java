@@ -85,13 +85,7 @@ public class AssessorAdminService {
         userRepository.findAll().stream()
             .filter(u -> u.isActive())
             .filter(
-                u ->
-                    u.getRoles().stream()
-                        .anyMatch(
-                            r ->
-                                "ASSESSOR".equalsIgnoreCase(r.getRoleName())
-                                    || "ASSESSOR ADMIN".equalsIgnoreCase(r.getRoleName())
-                                    || "ASSESSOR_ADMIN".equalsIgnoreCase(r.getRoleName())))
+                u -> u.getRoles().stream().anyMatch(r -> "ASSESSOR".equalsIgnoreCase(r.getRoleName())))
             .count();
 
     List<Assessment> allAssessments = assessmentRepository.findAll();

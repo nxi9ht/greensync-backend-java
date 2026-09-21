@@ -20,7 +20,7 @@ import th.ac.rmutt.greensync.security.AuthenticatedUser;
 public class CarbonLogsController {
 
   private static final Logger log = LoggerFactory.getLogger(CarbonLogsController.class);
-  private static final List<String> HEADER_ORG_ROLES = List.of("SYSTEM_ADMIN", "ASSESSOR", "ASSESSOR_ADMIN");
+  private static final List<String> HEADER_ORG_ROLES = List.of("SYSTEM_ADMIN", "ASSESSOR");
 
   private final CarbonLogsService carbonLogsService;
 
@@ -72,7 +72,7 @@ public class CarbonLogsController {
   }
 
   @GetMapping
-  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','USER','EMPLOYEE','ASSESSOR','ASSESSOR_ADMIN')")
+  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','USER','EMPLOYEE','ASSESSOR')")
   public List<Map<String, Object>> findAll(@AuthenticationPrincipal AuthenticatedUser me, HttpServletRequest httpRequest) {
     Integer orgId = getOrgId(me, httpRequest);
     log.info("Executing findAll for orgId: {}", orgId);

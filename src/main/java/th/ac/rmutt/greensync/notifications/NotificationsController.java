@@ -49,7 +49,7 @@ public class NotificationsController {
   }
 
   @PostMapping("/bulk")
-  @PreAuthorize("hasAnyRole('ADMIN','SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR_ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN','SYSTEM_ADMIN','ORG_ADMIN')")
   public List<Map<String, Object>> createBulk(
       @RequestBody CreateBulkNotificationRequest body, @AuthenticationPrincipal AuthenticatedUser me) {
     return notificationsService.createBulk(
@@ -73,7 +73,7 @@ public class NotificationsController {
   }
 
   @PostMapping("/propose-academic")
-  @PreAuthorize("hasAnyRole('ADMIN','SYSTEM_ADMIN','ASSESSOR_ADMIN','ASSESSOR')")
+  @PreAuthorize("hasAnyRole('ADMIN','SYSTEM_ADMIN','ASSESSOR')")
   public Map<String, Object> proposeAcademic(
       @RequestBody ProposeAcademicChangeRequest body, @AuthenticationPrincipal AuthenticatedUser me) {
     return notificationsService.proposeAcademicChange(me.userId(), body);

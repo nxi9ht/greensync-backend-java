@@ -52,7 +52,7 @@ public class OrganizationsController {
   }
 
   @GetMapping("/{id}")
-  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR','ASSESSOR_ADMIN')")
+  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR')")
   public Map<String, Object> findOne(@PathVariable Integer id, @AuthenticationPrincipal AuthenticatedUser me) {
     assertOrgAdminAccess(me, id);
     return organizationsService.findOne(id);
@@ -86,7 +86,7 @@ public class OrganizationsController {
   }
 
   @GetMapping("/{orgId}/units")
-  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR','ASSESSOR_ADMIN')")
+  @PreAuthorize("hasAnyRole('SYSTEM_ADMIN','ORG_ADMIN','ASSESSOR')")
   public List<Map<String, Object>> findUnits(
       @PathVariable Integer orgId, @AuthenticationPrincipal AuthenticatedUser me) {
     assertOrgAdminAccess(me, orgId);
