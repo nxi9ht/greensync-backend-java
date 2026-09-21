@@ -44,6 +44,9 @@ public class SecurityConfig {
             auth ->
                 auth.requestMatchers("/auth/**", "/actuator/health", "/v3/api-docs/**", "/swagger-ui/**")
                     .permitAll()
+                    .requestMatchers(
+                        org.springframework.http.HttpMethod.GET, "/subscriptions/plans", "/subscriptions/features")
+                    .permitAll()
                     .anyRequest()
                     .authenticated())
         .exceptionHandling(
