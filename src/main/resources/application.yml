@@ -32,8 +32,8 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: 5MB
-      max-request-size: 5MB
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 server:
   port: ${PORT:8080}
@@ -48,6 +48,7 @@ app:
     allowed-origins: ${ALLOWED_ORIGINS:http://localhost:4200,http://localhost:80}
   gemini:
     api-key: ${GEMINI_API_KEY:}
+    backup-api-key: ${GEMINI_BACKUP_API_KEY:${GEMINI_API_KEY_BACKUP:}}
 
 springdoc:
   api-docs:
