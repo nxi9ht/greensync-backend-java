@@ -1,0 +1,22 @@
+{
+  "permission.green_office" : "System Admin",
+  "industry_benchmark" : "12000",
+  "carbonStandard" : "TGO",
+  "permission.ai_scan" : "System Admin",
+  "smtp.pass" : "",
+  "stripe.secret_key" : "",
+  "smtp.host" : "",
+  "smtp.sender" : "Green Office System <no-reply@greensync.com>",
+  "smtp.user" : "",
+  "smtp.mode" : "mock",
+  "defaultBaseYear" : "2024",
+  "systemName" : "GREEN SYNC",
+  "stripe.public_key" : "",
+  "stripe.webhook_secret" : "",
+  "smtp.port" : "587",
+  "carbonThreshold" : "50000",
+  "stripe.currency" : "thb",
+  "permission.manage_quota" : "System Admin",
+  "maintenanceMode" : "false",
+  "smtp.fallback_email" : "admin@greensync.com"
+}
