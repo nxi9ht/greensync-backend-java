@@ -15,4 +15,8 @@ public interface CarbonLogRepository extends JpaRepository<CarbonLog, Integer> {
   // Date-range filtering for the trend endpoint happens in the service layer (Java streams)
   // since start/end are each independently optional in the original NestJS query builder.
   List<CarbonLog> findByOrganizationIdOrderByCreatedAtAsc(Integer orgId);
+
+  List<CarbonLog> findByOrganizationIdOrderByYearDescMonthDescCreatedAtDesc(Integer orgId);
+
+  List<CarbonLog> findByOrganizationIdIn(List<Integer> orgIds);
 }
